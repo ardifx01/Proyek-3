@@ -65,7 +65,7 @@
     </div>
 
     <div class="footer">
-        <p>&copy; <?= date('Y') ?> Universitas Coding</p>
+        <p>&copy; <?= date('Y') ?> by: Hisyam Khaeru Umam</p>
     </div>
 
 </body>
