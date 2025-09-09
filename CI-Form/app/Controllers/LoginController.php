@@ -13,6 +13,19 @@ class LoginController extends BaseController
 
     public function process()
     {
+        // 1. Aturan Validasi
+        $rules = [
+            'username' => 'required|alpha_numeric',
+            'password' => 'required|min_length[5]'
+        ];
+
+        // 2. Jalankan Validasi
+        if (!$this->validate($rules)) {
+            // Jika validasi gagal, kembali ke halaman login dengan pesan error
+            return redirect()->to('/login')->withInput()->with('validation', $this->validator);
+        }
+
+        // 3. Jika Validasi Berhasil, Lanjutkan Proses Login
         $session = session();
         $model = new UserModel();
         
@@ -22,18 +35,15 @@ class LoginController extends BaseController
         $user = $model->where('username', $username)->first();
 
         if ($user) {
-            // verifikasi password
             if (password_verify($password, $user['password'])) {
-                // Buat session
                 $session->set([
                     'username' => $user['username'],
                     'isLoggedIn' => TRUE
                 ]);
-                return redirect()->to('/mahasiswa'); // Arahkan ke halaman mahasiswa
+                return redirect()->to('/mahasiswa');
             }
         }
         
-        // Jika username atau password salah
         $session->setFlashdata('msg', 'Username atau Password Salah');
         return redirect()->to('/login');
     }
