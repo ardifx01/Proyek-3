@@ -9,8 +9,13 @@ class mahasiswamodel extends Model
 
     public function getmahasiswa()
     {
-        $db = \Config\Database::connect();
-        $query = $db->query('SELECT * FROM mahasiswa');
-        return $query->getResultArray();
+        // Kode ini sudah benar untuk mengambil data dari database
+        return $this->findAll();
+    }
+
+    public function getMahasiswaByNim($nim)
+    {
+        // Cari data berdasarkan kolom 'nim' dan ambil baris pertama
+        return $this->where(['nim' => $nim])->first();
     }
 }

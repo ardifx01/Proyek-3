@@ -5,10 +5,29 @@ use App\Models\mahasiswamodel;
 
 class mahasiswa extends BaseController
 {
-    public function display()
+    public function index()
     {
+        // Inisialisasi model Anda
         $model = new mahasiswamodel();
-        $data['mahasiswa'] = $model->getmahasiswa();
-        return view ('mahasiswa_view', $data);
+
+        // Siapkan data untuk dikirim ke template
+        $data = [
+            'title'   => 'Daftar Mahasiswa',
+            'content' => view('mahasiswaview', ['mahasiswa' => $model->getmahasiswa()])
+        ];
+
+        return view('template', $data);
+    }
+
+    public function detail($nim)
+    {
+        $model = new MahasiswaModel();
+        $mahasiswaData = $model->getMahasiswaByNim($nim); // Panggil fungsi baru di model
+
+        $data = [
+            'title'   => 'Detail Mahasiswa',
+            'content' => view('mahasiswa_detail_view', ['mahasiswa' => $mahasiswaData])
+        ];
+        return view('template', $data);
     }
 }
